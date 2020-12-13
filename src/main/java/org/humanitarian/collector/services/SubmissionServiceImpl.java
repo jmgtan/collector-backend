@@ -1,6 +1,7 @@
 package org.humanitarian.collector.services;
 
 import org.humanitarian.collector.controllers.requests.KoboDemographicRequest;
+import org.humanitarian.collector.models.BatchDataFile;
 import org.humanitarian.collector.models.Demographic;
 import org.humanitarian.collector.models.Person;
 import org.humanitarian.collector.repositories.DemographicRepository;
@@ -23,6 +24,12 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     @Transactional
     public Demographic saveKoboDemographicRequest(KoboDemographicRequest request) {
+        return saveKoboDemographicWithBatch(request, null);
+    }
+
+    @Override
+    @Transactional
+    public Demographic saveKoboDemographicWithBatch(KoboDemographicRequest request, BatchDataFile batchDataFile) {
         Person person = checkOrCreatePerson(request.getFirstName(), request.getLastName(), request.getDateOfBirth());
 
         Demographic d = new Demographic();
@@ -32,6 +39,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         d.setSubmissionTime(request.getSubmissionTime());
         d.setSourceFormId(request.getSourceFormId());
         d.setTelephoneNumber(request.getTelephoneNumber());
+        d.setBatch(batchDataFile);
 
         demographicRepository.save(d);
 

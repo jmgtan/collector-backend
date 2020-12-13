@@ -1,27 +1,38 @@
 package org.humanitarian.collector.controllers.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvDate;
+import com.opencsv.bean.CsvIgnore;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class KoboDemographicRequest {
     @JsonProperty("First_Name")
+    @CsvBindByName(column = "First_Name", required = true)
     private String firstName;
 
     @JsonProperty("Last_Name")
+    @CsvBindByName(column = "Last_Name", required = true)
     private String lastName;
 
     @JsonProperty("Date_of_Birth")
+    @CsvDate("yyyy-MM-dd")
+    @CsvBindByName(column = "Date_of_Birth", required = true)
     private Date dateOfBirth;
 
     @JsonProperty("Address")
+    @CsvBindByName(column = "Address", required = true)
     private String address;
 
     @JsonProperty("Telephone_Number")
+    @CsvBindByName(column = "Telephone_Number", required = true)
     private String telephoneNumber;
 
     @JsonProperty("_submission_time")
+    @CsvDate("yyyy-MM-dd hh:mm:ss a")
+    @CsvBindByName(column = "Submission_Time", required = true)
     private Timestamp submissionTime;
 
     @JsonProperty("_xform_id_string")

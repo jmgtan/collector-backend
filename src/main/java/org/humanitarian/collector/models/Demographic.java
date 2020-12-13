@@ -29,6 +29,18 @@ public class Demographic {
     @Column(name = "source_form_id")
     private String sourceFormId;
 
+    @ManyToOne
+    @JoinColumn(name = "from_batch_id", nullable = true)
+    private BatchDataFile batch;
+
+    public BatchDataFile getBatch() {
+        return batch;
+    }
+
+    public void setBatch(BatchDataFile batch) {
+        this.batch = batch;
+    }
+
     public BigInteger getId() {
         return id;
     }
