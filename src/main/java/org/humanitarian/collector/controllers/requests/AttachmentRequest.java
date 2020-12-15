@@ -2,7 +2,7 @@ package org.humanitarian.collector.controllers.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BarangayAttachmentRequest {
+public class AttachmentRequest {
 
     @JsonProperty("mimetype")
     private String mimeType;
