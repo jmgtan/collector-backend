@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.math.BigInteger;
+import java.util.UUID;
 
-public interface DemographicRepository extends PagingAndSortingRepository<Demographic, BigInteger> {
+public interface DemographicRepository extends PagingAndSortingRepository<Demographic, UUID> {
 }

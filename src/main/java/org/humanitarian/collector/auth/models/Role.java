@@ -1,6 +1,9 @@
 package org.humanitarian.collector.auth.models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "roles")
@@ -10,8 +13,9 @@ public class Role {
     public static final String ROLE_COLLECTOR = "COLLECTOR";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -19,11 +23,11 @@ public class Role {
     @Column(name = "description", nullable = true)
     private String description;
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

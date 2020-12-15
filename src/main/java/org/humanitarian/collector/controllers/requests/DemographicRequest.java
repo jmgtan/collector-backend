@@ -1,5 +1,6 @@
 package org.humanitarian.collector.controllers.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
@@ -8,7 +9,7 @@ import com.opencsv.bean.CsvIgnore;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class KoboDemographicRequest {
+public class DemographicRequest {
     @JsonProperty("First_Name")
     @CsvBindByName(column = "First_Name", required = true)
     private String firstName;
@@ -37,6 +38,16 @@ public class KoboDemographicRequest {
 
     @JsonProperty("_xform_id_string")
     private String sourceFormId;
+
+    private String sourceSystem;
+
+    public String getSourceSystem() {
+        return sourceSystem;
+    }
+
+    public void setSourceSystem(String sourceSystem) {
+        this.sourceSystem = sourceSystem;
+    }
 
     public String getFirstName() {
         return firstName;

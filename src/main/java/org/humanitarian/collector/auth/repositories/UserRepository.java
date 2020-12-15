@@ -4,7 +4,9 @@ import org.humanitarian.collector.auth.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
+import java.util.UUID;
+
+public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
     User findOneByUsername(String username);
     User findOneByUsernameAndPassword(String username, String password);
 }

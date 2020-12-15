@@ -48,7 +48,6 @@ public class BatchDataFileServiceImpl implements BatchDataFileService {
             batchDataFile.setStatus(BatchDataFile.STATUS_FAILED);
             batchDataFile.setErrorMessage(e.getMessage());
         } finally {
-            batchDataFile.setProcessed(true);
             batchDataFile.setStatus(BatchDataFile.STATUS_PROCESSED);
         }
 

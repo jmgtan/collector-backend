@@ -1,9 +1,11 @@
 package org.humanitarian.collector.models;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.humanitarian.collector.auth.models.User;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "batch_data_files")
@@ -14,17 +16,15 @@ public class BatchDataFile {
     public static final String STATUS_FAILED = "FAILED";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "uploaded_by")
     private User user;
 
     private String location;
-
-    @Column(name = "is_processed", nullable = false)
-    private boolean processed = false;
 
     @Column(name = "status", nullable = true)
     private String status = STATUS_PENDING;
@@ -57,11 +57,11 @@ public class BatchDataFile {
         this.handlerType = handlerType;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -79,14 +79,6 @@ public class BatchDataFile {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
     }
 
     public String getStatus() {
