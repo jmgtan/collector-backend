@@ -14,9 +14,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BatchDataFileServiceImpl implements BatchDataFileService {
@@ -58,6 +56,21 @@ public class BatchDataFileServiceImpl implements BatchDataFileService {
         batchDataFileRepository.save(batchDataFile);
 
         return batchDataFile;
+    }
+
+    @Override
+    public Set<String> getAvailableHandlers() {
+        if (!fileHandlerMap.isEmpty()) {
+            Set<String> keys = fileHandlerMap.keySet();
+            Set<String> handlers = new HashSet<>();
+            for (String key : keys) {
+                handlers.add(fileHandlerMap.get(key).getIdentifier());
+            }
+
+            return handlers;
+        }
+
+        return new HashSet<>();
     }
 
     @PostConstruct

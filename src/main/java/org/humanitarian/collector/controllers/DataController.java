@@ -2,6 +2,7 @@ package org.humanitarian.collector.controllers;
 
 import org.humanitarian.collector.auth.models.User;
 import org.humanitarian.collector.controllers.responses.BasicEntityMessageResponse;
+import org.humanitarian.collector.controllers.responses.BasicListMessageResponse;
 import org.humanitarian.collector.controllers.responses.PaginatedListMessageResponse;
 import org.humanitarian.collector.exceptions.HandlerNotFoundException;
 import org.humanitarian.collector.models.BatchDataFile;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/data")
@@ -40,5 +42,10 @@ public class DataController {
     @PostMapping(value = "/upload-batch-data-file", consumes = "multipart/form-data", produces = "application/json")
     public BasicEntityMessageResponse<BatchDataFile> uploadBatchDataFile(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile multipartFile, @RequestParam("type") String dataFileType) throws IOException, HandlerNotFoundException {
         return new BasicEntityMessageResponse<>(HttpStatus.OK, batchDataFileService.process(user, multipartFile.getInputStream(), dataFileType));
+    }
+
+    @GetMapping(value = "/available-handlers", produces = "application/json")
+    public BasicListMessageResponse<String> listAvailableHandlers() {
+        return new BasicListMessageResponse<String>(HttpStatus.OK, batchDataFileService.getAvailableHandlers());
     }
 }
