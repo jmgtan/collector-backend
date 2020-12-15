@@ -8,6 +8,7 @@ import com.opencsv.bean.CsvIgnore;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class DemographicRequest {
     @JsonProperty("First_Name")
@@ -40,6 +41,17 @@ public class DemographicRequest {
     private String sourceFormId;
 
     private String sourceSystem;
+
+    @JsonProperty("_attachments")
+    private List<AttachmentRequest> attachments;
+
+    public List<AttachmentRequest> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<AttachmentRequest> attachments) {
+        this.attachments = attachments;
+    }
 
     public String getSourceSystem() {
         return sourceSystem;

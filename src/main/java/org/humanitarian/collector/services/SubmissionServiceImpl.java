@@ -1,6 +1,6 @@
 package org.humanitarian.collector.services;
 
-import org.humanitarian.collector.controllers.requests.BarangayAttachmentRequest;
+import org.humanitarian.collector.controllers.requests.AttachmentRequest;
 import org.humanitarian.collector.controllers.requests.BarangayPersonRequest;
 import org.humanitarian.collector.controllers.requests.BarangayRequest;
 import org.humanitarian.collector.controllers.requests.DemographicRequest;
@@ -58,18 +58,20 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         barangayRepository.save(b);
 
-        for (BarangayAttachmentRequest attachmentRequest : request.getAttachments()) {
-            DataAttachment dataAttachment = new DataAttachment();
-            dataAttachment.setDownloadSmallUrl(attachmentRequest.getDownloadSmallUrl());
-            dataAttachment.setDownloadLargeUrl(attachmentRequest.getDownloadLargeUrl());
-            dataAttachment.setDownloadUrl(attachmentRequest.getDownloadUrl());
-            dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
-            dataAttachment.setMimeType(attachmentRequest.getMimeType());
-            dataAttachment.setFilename(attachmentRequest.getFilename());
-            dataAttachment.setReportData(b);
-            dataAttachmentRepository.save(dataAttachment);
+        if (request.getAttachments() != null) {
+            for (AttachmentRequest attachmentRequest : request.getAttachments()) {
+                DataAttachment dataAttachment = new DataAttachment();
+                dataAttachment.setDownloadSmallUrl(attachmentRequest.getDownloadSmallUrl());
+                dataAttachment.setDownloadLargeUrl(attachmentRequest.getDownloadLargeUrl());
+                dataAttachment.setDownloadUrl(attachmentRequest.getDownloadUrl());
+                dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
+                dataAttachment.setMimeType(attachmentRequest.getMimeType());
+                dataAttachment.setFilename(attachmentRequest.getFilename());
+                dataAttachment.setReportData(b);
+                dataAttachmentRepository.save(dataAttachment);
 
-            b.addDataAttachment(dataAttachment);
+                b.addDataAttachment(dataAttachment);
+            }
         }
 
         return b;
@@ -132,6 +134,22 @@ public class SubmissionServiceImpl implements SubmissionService {
         d.setBatchDataFile(batchDataFile);
 
         demographicRepository.save(d);
+
+        if (request.getAttachments() != null) {
+            for (AttachmentRequest attachmentRequest : request.getAttachments()) {
+                DataAttachment dataAttachment = new DataAttachment();
+                dataAttachment.setDownloadSmallUrl(attachmentRequest.getDownloadSmallUrl());
+                dataAttachment.setDownloadLargeUrl(attachmentRequest.getDownloadLargeUrl());
+                dataAttachment.setDownloadUrl(attachmentRequest.getDownloadUrl());
+                dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
+                dataAttachment.setMimeType(attachmentRequest.getMimeType());
+                dataAttachment.setFilename(attachmentRequest.getFilename());
+                dataAttachment.setReportData(d);
+                dataAttachmentRepository.save(dataAttachment);
+
+                d.addDataAttachment(dataAttachment);
+            }
+        }
 
         return d;
     }

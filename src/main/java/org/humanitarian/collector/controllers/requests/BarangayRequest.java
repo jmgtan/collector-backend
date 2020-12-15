@@ -47,7 +47,7 @@ public class BarangayRequest {
     private String houseLevel;
 
     @JsonProperty("_attachments")
-    private List<BarangayAttachmentRequest> attachments;
+    private List<AttachmentRequest> attachments;
 
     @JsonProperty("group_pp0oh97/Do_the_household_consume_iodized_salt")
     private String iodizedSalt;
@@ -191,11 +191,11 @@ public class BarangayRequest {
         this.houseLevel = houseLevel;
     }
 
-    public List<BarangayAttachmentRequest> getAttachments() {
+    public List<AttachmentRequest> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<BarangayAttachmentRequest> attachments) {
+    public void setAttachments(List<AttachmentRequest> attachments) {
         this.attachments = attachments;
     }
 
