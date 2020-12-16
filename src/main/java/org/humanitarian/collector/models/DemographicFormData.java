@@ -1,17 +1,10 @@
 package org.humanitarian.collector.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity
-@Table(name = "reportdata_demographics")
-public class Demographic extends ReportData {
+@Table(name = "form_data_demographic")
+public class DemographicFormData extends FormData {
 
     private String address;
 

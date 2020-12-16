@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,10 +16,6 @@ public class Person {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-
-    @ManyToMany(mappedBy = "associatedPersons")
-    @JsonIgnore
-    private List<ReportData> reportData;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -38,15 +34,10 @@ public class Person {
 
     private String breastfeeding;
 
-    @Column(name = "received_government_programs")
-    private String receivedGovernmentProgram;
-
     private boolean pregnant = false;
 
     @Column(name = "family_planning")
     private boolean familyPlanning = false;
-
-    private String disability;
 
     private String gender;
 
@@ -64,9 +55,6 @@ public class Person {
     @Column(name = "place_of_birth")
     private String placeOfBirth;
 
-    @Column(name = "ip_affiliation")
-    private String ipAffiliation;
-
     @Column(name = "others_breastfeeding")
     private String othersBreastfeeding;
 
@@ -76,12 +64,116 @@ public class Person {
     @Column(name = "occupation")
     private String occupation;
 
-    public List<ReportData> getReportData() {
-        return reportData;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Household household;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<GovernmentProgram> governmentPrograms;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<IpAffiliation> ipAffiliations;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<Disability> disabilities;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<FamilyPlanningMethod> familyPlanningMethods;
+
+    public void addFamilyPlanningMethods(String t) {
+        if (t != null) {
+            if (familyPlanningMethods == null) {
+                familyPlanningMethods = new ArrayList<>();
+            }
+
+            String[] arr = t.split(" ");
+
+            for (String a : arr) {
+                familyPlanningMethods.add(new FamilyPlanningMethod(this, a));
+            }
+        }
     }
 
-    public void setReportData(List<ReportData> reportData) {
-        this.reportData = reportData;
+    public void addDisabilities(String t) {
+        if (t != null) {
+            if (disabilities == null) {
+                disabilities = new ArrayList<>();
+            }
+
+            String[] arr = t.split(" ");
+
+            for (String a : arr) {
+                disabilities.add(new Disability(this, a));
+            }
+        }
+    }
+
+    public void addIpAffiliations(String t) {
+        if (t != null) {
+            if (ipAffiliations == null) {
+                ipAffiliations = new ArrayList<>();
+            }
+
+            String[] arr = t.split(" ");
+
+            for (String a : arr) {
+                ipAffiliations.add(new IpAffiliation(this, a));
+            }
+        }
+    }
+
+    public void addGovernmentPrograms(String t) {
+        if (t != null) {
+            if (governmentPrograms == null) {
+                governmentPrograms = new ArrayList<>();
+            }
+
+            String[] arr = t.split(" ");
+
+            for (String a : arr) {
+                governmentPrograms.add(new GovernmentProgram(this, a));
+            }
+        }
+    }
+
+    public List<GovernmentProgram> getGovernmentPrograms() {
+        return governmentPrograms;
+    }
+
+    public void setGovernmentPrograms(List<GovernmentProgram> governmentPrograms) {
+        this.governmentPrograms = governmentPrograms;
+    }
+
+    public List<IpAffiliation> getIpAffiliations() {
+        return ipAffiliations;
+    }
+
+    public void setIpAffiliations(List<IpAffiliation> ipAffiliations) {
+        this.ipAffiliations = ipAffiliations;
+    }
+
+    public List<Disability> getDisabilities() {
+        return disabilities;
+    }
+
+    public void setDisabilities(List<Disability> disabilities) {
+        this.disabilities = disabilities;
+    }
+
+    public List<FamilyPlanningMethod> getFamilyPlanningMethods() {
+        return familyPlanningMethods;
+    }
+
+    public void setFamilyPlanningMethods(List<FamilyPlanningMethod> familyPlanningMethods) {
+        this.familyPlanningMethods = familyPlanningMethods;
+    }
+
+    public Household getHousehold() {
+        return household;
+    }
+
+    public void setHousehold(Household household) {
+        this.household = household;
     }
 
     public UUID getId() {
@@ -140,14 +232,6 @@ public class Person {
         this.breastfeeding = breastfeeding;
     }
 
-    public String getReceivedGovernmentProgram() {
-        return receivedGovernmentProgram;
-    }
-
-    public void setReceivedGovernmentProgram(String receivedGovernmentProgram) {
-        this.receivedGovernmentProgram = receivedGovernmentProgram;
-    }
-
     public boolean isPregnant() {
         return pregnant;
     }
@@ -162,14 +246,6 @@ public class Person {
 
     public void setFamilyPlanning(boolean familyPlanning) {
         this.familyPlanning = familyPlanning;
-    }
-
-    public String getDisability() {
-        return disability;
-    }
-
-    public void setDisability(String disability) {
-        this.disability = disability;
     }
 
     public String getGender() {
@@ -218,14 +294,6 @@ public class Person {
 
     public void setPlaceOfBirth(String placeOfBirth) {
         this.placeOfBirth = placeOfBirth;
-    }
-
-    public String getIpAffiliation() {
-        return ipAffiliation;
-    }
-
-    public void setIpAffiliation(String ipAffiliation) {
-        this.ipAffiliation = ipAffiliation;
     }
 
     public String getOthersBreastfeeding() {

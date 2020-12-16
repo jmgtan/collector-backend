@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.UUID;
 
 @Entity
@@ -34,20 +33,20 @@ public class DataAttachment {
     private String downloadMediumUrl;
 
     @ManyToOne
-    @JoinColumn(name = "report_data_id", nullable = false)
+    @JoinColumn(name = "form_data_id", nullable = false)
     @JsonIgnore
-    private ReportData reportData;
+    private FormData formData;
+
+    public FormData getFormData() {
+        return formData;
+    }
+
+    public void setFormData(FormData formData) {
+        this.formData = formData;
+    }
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public ReportData getReportData() {
-        return reportData;
-    }
-
-    public void setReportData(ReportData reportData) {
-        this.reportData = reportData;
     }
 
     public UUID getId() {

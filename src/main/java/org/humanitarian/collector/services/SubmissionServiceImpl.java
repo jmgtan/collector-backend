@@ -2,79 +2,83 @@ package org.humanitarian.collector.services;
 
 import org.humanitarian.collector.controllers.requests.AttachmentRequest;
 import org.humanitarian.collector.controllers.requests.BarangayPersonRequest;
-import org.humanitarian.collector.controllers.requests.BarangayRequest;
-import org.humanitarian.collector.controllers.requests.DemographicRequest;
+import org.humanitarian.collector.controllers.requests.BarangayFormDataRequest;
+import org.humanitarian.collector.controllers.requests.DemographicFormDataRequest;
 import org.humanitarian.collector.models.*;
-import org.humanitarian.collector.repositories.BarangayRepository;
+import org.humanitarian.collector.repositories.BarangayFormDataRepository;
 import org.humanitarian.collector.repositories.DataAttachmentRepository;
-import org.humanitarian.collector.repositories.DemographicRepository;
+import org.humanitarian.collector.repositories.DemographicFormDataRepository;
 import org.humanitarian.collector.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
 
     @Autowired
-    private DemographicRepository demographicRepository;
+    private DemographicFormDataRepository demographicFormDataRepository;
 
     @Autowired
     private PersonRepository personRepository;
 
     @Autowired
-    private BarangayRepository barangayRepository;
+    private BarangayFormDataRepository barangayFormDataRepository;
 
     @Autowired
     private DataAttachmentRepository dataAttachmentRepository;
 
     @Override
     @Transactional
-    public Barangay saveBarangayRequest(BarangayRequest request) {
-        Barangay b = new Barangay();
+    public List<BarangayFormData> saveBarangayFormDataRequest(BarangayFormDataRequest request) {
+        List<BarangayFormData> entities = new ArrayList<>(request.getPeople().size() + 1);
 
         for (BarangayPersonRequest perRequest : request.getPeople()) {
-            b.addPerson(checkOrCreatePersonFromRequest(perRequest));
-        }
+            BarangayFormData b = new BarangayFormData();
+            b.setPerson(checkOrCreatePersonFromRequest(perRequest));
+            b.addFoodProductionActivities(request.getFoodProductionActivity());
+            b.addTreeInVicinity(request.getTreesInVicinity());
+            b.addTypesOfToilet(request.getTypeOfToilet());
+            b.addLivelihoodEquipments(request.getLivelihoodEquipment());
+            b.setMembers(request.getMembers());
+            b.setTenure(request.getTenure());
+            b.setFortifiedFood(request.isConsumingFortifiedFood());
+            b.addGarbageDisposals(request.getGarbageDisposal());
+            b.setResidenceAddress(request.getResidenceAddress());
+            b.addWaterSources(request.getWaterSource());
+            b.setHouseLevel(request.getHouseLevel());
+            b.setIodizedSalt(request.isConsumedIodizedSalt());
+            b.setHouseholdNumber(request.getHouseholdNumber());
+            b.setDwelling(request.getDwelling());
+            b.setSourceSystem(request.getSourceSystem());
+            b.setSourceSystemIdentifier(request.getSourceSystemIdentifier());
 
-        b.setFoodProductionActivity(request.getFoodProductionActivity());
-        b.setTreesInVicinity(request.getTreesInVicinity());
-        b.setTypeOfToilet(request.getTypeOfToilet());
-        b.setLivelihoodEquipment(request.getLivelihoodEquipment());
-        b.setMembers(request.getMembers());
-        b.setTenure(request.getTenure());
-        b.setFortifiedFood(request.isConsumingFortifiedFood());
-        b.setGarbageDisposal(request.getGarbageDisposal());
-        b.setResidenceAddress(request.getResidenceAddress());
-        b.setWaterSource(request.getWaterSource());
-        b.setHouseLevel(request.getHouseLevel());
-        b.setIodizedSalt(request.isConsumedIodizedSalt());
-        b.setHouseholdNumber(request.getHouseholdNumber());
-        b.setDwelling(request.getDwelling());
-        b.setSourceSystem(request.getSourceSystem());
-        b.setSourceSystemIdentifier(request.getSourceSystemIdentifier());
+            barangayFormDataRepository.save(b);
 
-        barangayRepository.save(b);
+            if (request.getAttachments() != null) {
+                for (AttachmentRequest attachmentRequest : request.getAttachments()) {
+                    DataAttachment dataAttachment = new DataAttachment();
+                    dataAttachment.setDownloadSmallUrl(attachmentRequest.getDownloadSmallUrl());
+                    dataAttachment.setDownloadLargeUrl(attachmentRequest.getDownloadLargeUrl());
+                    dataAttachment.setDownloadUrl(attachmentRequest.getDownloadUrl());
+                    dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
+                    dataAttachment.setMimeType(attachmentRequest.getMimeType());
+                    dataAttachment.setFilename(attachmentRequest.getFilename());
+                    dataAttachment.setFormData(b);
+                    dataAttachmentRepository.save(dataAttachment);
 
-        if (request.getAttachments() != null) {
-            for (AttachmentRequest attachmentRequest : request.getAttachments()) {
-                DataAttachment dataAttachment = new DataAttachment();
-                dataAttachment.setDownloadSmallUrl(attachmentRequest.getDownloadSmallUrl());
-                dataAttachment.setDownloadLargeUrl(attachmentRequest.getDownloadLargeUrl());
-                dataAttachment.setDownloadUrl(attachmentRequest.getDownloadUrl());
-                dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
-                dataAttachment.setMimeType(attachmentRequest.getMimeType());
-                dataAttachment.setFilename(attachmentRequest.getFilename());
-                dataAttachment.setReportData(b);
-                dataAttachmentRepository.save(dataAttachment);
-
-                b.addDataAttachment(dataAttachment);
+                    b.addDataAttachment(dataAttachment);
+                }
             }
+
+            entities.add(b);
         }
 
-        return b;
+        return entities;
     }
 
     @Override
@@ -93,19 +97,20 @@ public class SubmissionServiceImpl implements SubmissionService {
         p.setMemberOfLgbtqi(request.isMemberOfLgbtqiCommunity());
         p.setBreastfeeding(request.getBreastfeeding());
         p.setOthersBreastfeeding(request.getOthersBreastfeeding());
-        p.setReceivedGovernmentProgram(request.getReceivedGovernmentPrograms());
+        p.addGovernmentPrograms(request.getReceivedGovernmentPrograms());
         p.setPregnant(request.isPregnant());
         p.setFamilyPlanning(request.isPracticingFamilyPlanning());
-        p.setDisability(request.getDisability());
+        p.addDisabilities(request.getDisability());
         p.setGender(request.getSex());
         p.setRelationship(request.getRelationship());
         p.setCivilStatus(request.getCivilStatus());
         p.setHighestEducationalAttainment(request.getHighestEducationalAttainment());
         p.setOthersEducationalAttainment(request.getOtherHighestEducationalAttainment());
         p.setPlaceOfBirth(request.getPlaceOfBirth());
-        p.setIpAffiliation(request.getIpAffiliation());
+        p.addIpAffiliations(request.getIpAffiliation());
         p.setBloodType(request.getBloodType());
         p.setOccupation(request.getOccupation());
+        p.addFamilyPlanningMethods(request.getFamilyPlanningMethod());
 
         personRepository.save(p);
 
@@ -114,18 +119,18 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     @Transactional
-    public Demographic saveDemographicRequest(DemographicRequest request) {
-        return saveDemographicWithBatch(request, null);
+    public DemographicFormData saveDemographicFormDataRequest(DemographicFormDataRequest request) {
+        return saveDemographicFormDataWithBatch(request, null);
     }
 
     @Override
     @Transactional
-    public Demographic saveDemographicWithBatch(DemographicRequest request, BatchDataFile batchDataFile) {
+    public DemographicFormData saveDemographicFormDataWithBatch(DemographicFormDataRequest request, BatchDataFile batchDataFile) {
         Person person = checkOrCreatePerson(request.getFirstName(), request.getLastName(), request.getDateOfBirth());
 
-        Demographic d = new Demographic();
+        DemographicFormData d = new DemographicFormData();
 
-        d.addPerson(person);
+        d.setPerson(person);
         d.setAddress(request.getAddress());
         d.setSubmissionTime(request.getSubmissionTime());
         d.setSourceSystem(request.getSourceSystem());
@@ -133,7 +138,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         d.setTelephoneNumber(request.getTelephoneNumber());
         d.setBatchDataFile(batchDataFile);
 
-        demographicRepository.save(d);
+        demographicFormDataRepository.save(d);
 
         if (request.getAttachments() != null) {
             for (AttachmentRequest attachmentRequest : request.getAttachments()) {
@@ -144,7 +149,7 @@ public class SubmissionServiceImpl implements SubmissionService {
                 dataAttachment.setDownloadMediumUrl(attachmentRequest.getDownloadMediumUrl());
                 dataAttachment.setMimeType(attachmentRequest.getMimeType());
                 dataAttachment.setFilename(attachmentRequest.getFilename());
-                dataAttachment.setReportData(d);
+                dataAttachment.setFormData(d);
                 dataAttachmentRepository.save(dataAttachment);
 
                 d.addDataAttachment(dataAttachment);

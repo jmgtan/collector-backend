@@ -1,0 +1,70 @@
+{
+   "_id":145851908,
+   "_notes":[
+      
+   ],
+   "group_pp0oh97/Food_Production_Activity":"fishpond",
+   "_validation_status":{
+      
+   },
+   "_uuid":"ae457920-97b0-4969-a482-905271bd02c6",
+   "_tags":[
+      
+   ],
+   "group_pp0oh97/Trees_in_vicinity":"strong",
+   "group_pp0oh97/Type_of_toilet":"water_sealed",
+   "_submitted_by":null,
+   "group_pp0oh97/Livelihood_Equipment":"plow harrow mower",
+   "group_vl5um06/members":"1",
+   "_xform_id_string":"a9KMzcjyCdku6Q7sUF35GN",
+   "group_lu2kq66":[
+      {
+         "group_lu2kq66/Sex":"female",
+         "group_lu2kq66/Does_A1_received_government_programs":"pwd_pdaf phil_health",
+         "group_lu2kq66/What_is_the_relationship_of_A":"household_head",
+         "group_lu2kq66/Is_FIRST_NAME_MIDDLE_NAME_":"no",
+         "group_lu2kq66/Disability":"none",
+         "group_lu2kq66/Breastfeeding_001":"mixed_feeding",
+         "group_lu2kq66/FULL_NAME":"Alyssa Swan Kouma",
+         "group_lu2kq66/Which_method_did_u_use":"pills",
+         "group_lu2kq66/Household/FIRST_NAME":"Alyssa",
+         "group_lu2kq66/Is_A1_a_member_of_LGBTQI_community":"no",
+         "group_lu2kq66/Where_was_A1_born":"Manila",
+         "group_lu2kq66/Breastfeeding":"ebf__exclusive_breastfeeding",
+         "group_lu2kq66/Pregnant":"no",
+         "group_lu2kq66/DOB":"1984-11-12",
+         "group_lu2kq66/Couples_practicing_family_plan":"yes",
+         "group_lu2kq66/What_was_A1_highes_ucational_attainment":"college_graduate",
+         "group_lu2kq66/Household/LAST_NAME":"Kouma",
+         "group_lu2kq66/Civil_Status":"married",
+         "group_lu2kq66/Household/MIDDLE_NAME":"Swan",
+         "group_lu2kq66/Age_Years_old":"36",
+         "group_lu2kq66/Occupation":"1",
+         "group_lu2kq66/Blood_type":"o"
+      }
+   ],
+   "group_pp0oh97/Tenure":"own_or_ownerlike_posession",
+   "meta/instanceID":"uuid:ae457920-97b0-4969-a482-905271bd02c6",
+   "group_pp0oh97/Do_the_household_con_lling_fortified_food":"no",
+   "formhub/uuid":"ce1bc4ff261a43f7b2c85457a39cebdf",
+   "group_pp0oh97/Garbage_Disposal":"burning collected",
+   "group_pp0oh97/Residence_Address":"option_47",
+   "end":"2020-12-16T19:44:29.850+08:00",
+   "_submission_time":"2020-12-16T11:44:42",
+   "group_pp0oh97/Water_Source":"pipe deepwell",
+   "group_pp0oh97/House_Level":"1_storey",
+   "_attachments":[
+      
+   ],
+   "start":"2020-12-16T19:38:44.960+08:00",
+   "_geolocation":[
+      null,
+      null
+   ],
+   "group_pp0oh97/Do_the_household_consume_iodized_salt":"yes",
+   "_version_":"vEAA99gGgnkHoHZ6tBWK3T",
+   "_status":"submitted_via_web",
+   "__version__":"vqMqfeVsjNar2fjzua2xYn",
+   "group_vl5um06/Household_number":"22",
+   "group_pp0oh97/Dwelling":"mixed_strong_light__wooden_house"
+}
