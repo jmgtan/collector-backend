@@ -5,12 +5,14 @@ import org.humanitarian.collector.controllers.responses.BasicEntityMessageRespon
 import org.humanitarian.collector.controllers.responses.BasicListMessageResponse;
 import org.humanitarian.collector.controllers.responses.PaginatedListMessageResponse;
 import org.humanitarian.collector.exceptions.HandlerNotFoundException;
+import org.humanitarian.collector.models.Barangay;
 import org.humanitarian.collector.models.BatchDataFile;
 import org.humanitarian.collector.models.Demographic;
 import org.humanitarian.collector.models.Person;
 import org.humanitarian.collector.services.BatchDataFileService;
 import org.humanitarian.collector.services.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +32,27 @@ public class DataController {
     private BatchDataFileService batchDataFileService;
 
     @GetMapping("/persons/list")
-    public PaginatedListMessageResponse<Person> listOfPersons(@RequestParam(name = "page", defaultValue = "1") int page) {
-        return new PaginatedListMessageResponse<>(HttpStatus.OK, dataService.listPersons(page));
+    public PaginatedListMessageResponse<Person> listOfPersons(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "sortColumn", defaultValue = "lastName") String sortColumn,
+            @RequestParam(name = "sortDirection", defaultValue = "ASC") String sortDirection) {
+        return new PaginatedListMessageResponse<>(HttpStatus.OK, dataService.listPersons(page, sortColumn, Sort.Direction.valueOf(sortDirection)));
     }
 
     @GetMapping("/demographics/list")
-    public PaginatedListMessageResponse<Demographic> listOfDemographics(@RequestParam(name = "page", defaultValue = "1") int page) {
-        return new PaginatedListMessageResponse<>(HttpStatus.OK, dataService.listDemographics(page));
+    public PaginatedListMessageResponse<Demographic> listOfDemographics(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "sortColumn", defaultValue = "submissionTime") String sortColumn,
+            @RequestParam(name = "sortDirection", defaultValue = "DESC") String sortDirection) {
+        return new PaginatedListMessageResponse<>(HttpStatus.OK, dataService.listDemographics(page, sortColumn, Sort.Direction.valueOf(sortDirection)));
+    }
+
+    @GetMapping("/barangay/list")
+    public PaginatedListMessageResponse<Barangay> listOfBarangay(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "sortColumn", defaultValue = "submissionTime") String sortColumn,
+            @RequestParam(name = "sortDirection", defaultValue = "DESC") String sortDirection) {
+        return new PaginatedListMessageResponse<>(HttpStatus.OK, dataService.listBarangay(page, sortColumn, Sort.Direction.valueOf(sortDirection)));
     }
 
     @PostMapping(value = "/upload-batch-data-file", consumes = "multipart/form-data", produces = "application/json")
