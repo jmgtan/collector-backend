@@ -5,10 +5,7 @@ import org.humanitarian.collector.controllers.requests.BarangayPersonRequest;
 import org.humanitarian.collector.controllers.requests.BarangayFormDataRequest;
 import org.humanitarian.collector.controllers.requests.DemographicFormDataRequest;
 import org.humanitarian.collector.models.*;
-import org.humanitarian.collector.repositories.BarangayFormDataRepository;
-import org.humanitarian.collector.repositories.DataAttachmentRepository;
-import org.humanitarian.collector.repositories.DemographicFormDataRepository;
-import org.humanitarian.collector.repositories.PersonRepository;
+import org.humanitarian.collector.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +29,57 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Autowired
     private DataAttachmentRepository dataAttachmentRepository;
 
+    @Autowired
+    private FoodProductionActivityRepository foodProductionActivityRepository;
+
+    @Autowired
+    private TreeInVicinityRepository treeInVicinityRepository;
+
+    @Autowired
+    private TypeOfToiletRepository typeOfToiletRepository;
+
+    @Autowired
+    private LivelihoodEquipmentRepository livelihoodEquipmentRepository;
+
+    @Autowired
+    private GarbageDisposalRepository garbageDisposalRepository;
+
+    @Autowired
+    private WaterSourceRepository waterSourceRepository;
+
+    @Autowired
+    private GovernmentProgramRepository governmentProgramRepository;
+
+    @Autowired
+    private IpAffiliationRepository ipAffiliationRepository;
+
+    @Autowired
+    private DisabilityRepository disabilityRepository;
+
+    @Autowired
+    private FamilyPlanningMethodRepository familyPlanningMethodRepository;
+
     @Override
     @Transactional
     public List<BarangayFormData> saveBarangayFormDataRequest(BarangayFormDataRequest request) {
         List<BarangayFormData> entities = new ArrayList<>(request.getPeople().size() + 1);
 
         for (BarangayPersonRequest perRequest : request.getPeople()) {
-            BarangayFormData b = new BarangayFormData();
-            b.setPerson(checkOrCreatePersonFromRequest(perRequest));
+            Person person = checkOrCreatePersonFromRequest(perRequest);
+            BarangayFormData b = barangayFormDataRepository.findOneByPerson(person);
+
+            if (b == null) {
+                b = new BarangayFormData();
+                b.setPerson(person);
+            } else {
+                foodProductionActivityRepository.deleteByFormData(b);
+                treeInVicinityRepository.deleteByFormData(b);
+                typeOfToiletRepository.deleteByFormData(b);
+                livelihoodEquipmentRepository.deleteByFormData(b);
+                garbageDisposalRepository.deleteByFormData(b);
+                waterSourceRepository.deleteByFormData(b);
+            }
+
             b.addFoodProductionActivities(request.getFoodProductionActivity());
             b.addTreeInVicinity(request.getTreesInVicinity());
             b.addTypesOfToilet(request.getTypeOfToilet());
@@ -92,6 +132,11 @@ public class SubmissionServiceImpl implements SubmissionService {
             p.setMiddleName(request.getMiddleName());
             p.setLastName(request.getLastName());
             p.setDob(request.getDob());
+        } else {
+            governmentProgramRepository.deleteByPerson(p);
+            ipAffiliationRepository.deleteByPerson(p);
+            disabilityRepository.deleteByPerson(p);
+            familyPlanningMethodRepository.deleteByPerson(p);
         }
 
         p.setMemberOfLgbtqi(request.isMemberOfLgbtqiCommunity());
