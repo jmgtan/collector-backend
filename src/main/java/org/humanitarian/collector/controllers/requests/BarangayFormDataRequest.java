@@ -1,51 +1,75 @@
-package org.humanitarian.collector.models;
+package org.humanitarian.collector.controllers.requests;
 
-import javax.persistence.*;
-import java.math.BigInteger;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.Timestamp;
+import java.util.List;
 
-@Entity
-@Table(name = "reportdata_barangay")
-public class Barangay extends ReportData {
+public class BarangayFormDataRequest {
 
-    @Column(name = "food_production_activity")
+    @JsonProperty("group_pp0oh97/Food_Production_Activity")
     private String foodProductionActivity;
 
-    @Column(name = "trees_in_vicinity")
+    @JsonProperty("group_pp0oh97/Trees_in_vicinity")
     private String treesInVicinity;
 
-    @Column(name = "type_of_toilet")
+    @JsonProperty("group_pp0oh97/Type_of_toilet")
     private String typeOfToilet;
 
-    @Column(name = "livelihood_equipment")
+    @JsonProperty("group_pp0oh97/Livelihood_Equipment")
     private String livelihoodEquipment;
 
+    @JsonProperty("group_vl5um06/members")
     private int members;
 
+    @JsonProperty("group_lu2kq66")
+    private List<BarangayPersonRequest> people;
+
+    @JsonProperty("group_pp0oh97/Tenure")
     private String tenure;
 
-    @Column(name = "fortified_food")
-    private boolean fortifiedFood = false;
+    @JsonProperty("group_pp0oh97/Do_the_household_con_lling_fortified_food")
+    private String fortifiedFood;
 
-    @Column(name = "garbage_disposal")
+    @JsonProperty("group_pp0oh97/Garbage_Disposal")
     private String garbageDisposal;
 
-    @Column(name = "residence_address")
+    @JsonProperty("group_pp0oh97/Residence_Address")
     private String residenceAddress;
 
-    @Column(name = "water_source")
+    @JsonProperty("_submission_time")
+    private Timestamp submissionTime;
+
+    @JsonProperty("group_pp0oh97/Water_Source")
     private String waterSource;
 
-    @Column(name = "house_level")
+    @JsonProperty("group_pp0oh97/House_Level")
     private String houseLevel;
 
-    @Column(name = "iodized_salt")
-    private boolean iodizedSalt = false;
+    @JsonProperty("_attachments")
+    private List<AttachmentRequest> attachments;
 
-    @Column(name = "household_number")
+    @JsonProperty("group_pp0oh97/Do_the_household_consume_iodized_salt")
+    private String iodizedSalt;
+
+    @JsonProperty("group_vl5um06/Household_number")
     private String householdNumber;
 
+    @JsonProperty("group_pp0oh97/Dwelling")
     private String dwelling;
+
+    private String sourceSystem;
+
+    @JsonProperty("_xform_id_string")
+    private String sourceSystemIdentifier;
+
+    public boolean isConsumedIodizedSalt() {
+        return iodizedSalt != null && iodizedSalt.equalsIgnoreCase("yes");
+    }
+
+    public boolean isConsumingFortifiedFood() {
+        return fortifiedFood != null && fortifiedFood.equalsIgnoreCase("yes");
+    }
 
     public String getFoodProductionActivity() {
         return foodProductionActivity;
@@ -53,6 +77,22 @@ public class Barangay extends ReportData {
 
     public void setFoodProductionActivity(String foodProductionActivity) {
         this.foodProductionActivity = foodProductionActivity;
+    }
+
+    public String getSourceSystem() {
+        return sourceSystem;
+    }
+
+    public void setSourceSystem(String sourceSystem) {
+        this.sourceSystem = sourceSystem;
+    }
+
+    public String getSourceSystemIdentifier() {
+        return sourceSystemIdentifier;
+    }
+
+    public void setSourceSystemIdentifier(String sourceSystemIdentifier) {
+        this.sourceSystemIdentifier = sourceSystemIdentifier;
     }
 
     public String getTreesInVicinity() {
@@ -87,6 +127,14 @@ public class Barangay extends ReportData {
         this.members = members;
     }
 
+    public List<BarangayPersonRequest> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<BarangayPersonRequest> people) {
+        this.people = people;
+    }
+
     public String getTenure() {
         return tenure;
     }
@@ -95,11 +143,11 @@ public class Barangay extends ReportData {
         this.tenure = tenure;
     }
 
-    public boolean isFortifiedFood() {
+    public String getFortifiedFood() {
         return fortifiedFood;
     }
 
-    public void setFortifiedFood(boolean fortifiedFood) {
+    public void setFortifiedFood(String fortifiedFood) {
         this.fortifiedFood = fortifiedFood;
     }
 
@@ -119,6 +167,14 @@ public class Barangay extends ReportData {
         this.residenceAddress = residenceAddress;
     }
 
+    public Timestamp getSubmissionTime() {
+        return submissionTime;
+    }
+
+    public void setSubmissionTime(Timestamp submissionTime) {
+        this.submissionTime = submissionTime;
+    }
+
     public String getWaterSource() {
         return waterSource;
     }
@@ -135,11 +191,19 @@ public class Barangay extends ReportData {
         this.houseLevel = houseLevel;
     }
 
-    public boolean isIodizedSalt() {
+    public List<AttachmentRequest> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<AttachmentRequest> attachments) {
+        this.attachments = attachments;
+    }
+
+    public String getIodizedSalt() {
         return iodizedSalt;
     }
 
-    public void setIodizedSalt(boolean iodizedSalt) {
+    public void setIodizedSalt(String iodizedSalt) {
         this.iodizedSalt = iodizedSalt;
     }
 

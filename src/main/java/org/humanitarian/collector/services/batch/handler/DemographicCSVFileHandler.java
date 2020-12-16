@@ -2,10 +2,10 @@ package org.humanitarian.collector.services.batch.handler;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.io.input.BOMInputStream;
-import org.humanitarian.collector.controllers.requests.DemographicRequest;
+import org.humanitarian.collector.controllers.requests.DemographicFormDataRequest;
 import org.humanitarian.collector.exceptions.InvalidFileFormatException;
 import org.humanitarian.collector.models.BatchDataFile;
-import org.humanitarian.collector.models.Demographic;
+import org.humanitarian.collector.models.DemographicFormData;
 import org.humanitarian.collector.services.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,25 +20,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DemographicCSVFileHandler implements FileHandler<Demographic> {
+public class DemographicCSVFileHandler implements FileHandler<DemographicFormData> {
 
     @Autowired
     private SubmissionService submissionService;
 
     @Override
     @Transactional
-    public List<Demographic> handle(BatchDataFile batchDataFile, InputStream inputStream) throws InvalidFileFormatException, IOException {
+    public List<DemographicFormData> handle(BatchDataFile batchDataFile, InputStream inputStream) throws InvalidFileFormatException, IOException {
         BOMInputStream bin = new BOMInputStream(inputStream);
 
-        List<DemographicRequest> rows = new CsvToBeanBuilder<DemographicRequest>(new InputStreamReader(bin, StandardCharsets.UTF_8))
-                .withType(DemographicRequest.class)
+        List<DemographicFormDataRequest> rows = new CsvToBeanBuilder<DemographicFormDataRequest>(new InputStreamReader(bin, StandardCharsets.UTF_8))
+                .withType(DemographicFormDataRequest.class)
                 .build()
                 .parse();
 
-        List<Demographic> results = new ArrayList<>(rows.size() + 1);
+        List<DemographicFormData> results = new ArrayList<>(rows.size() + 1);
 
-        for (DemographicRequest kdr : rows) {
-            results.add(submissionService.saveDemographicWithBatch(kdr, batchDataFile));
+        for (DemographicFormDataRequest kdr : rows) {
+            results.add(submissionService.saveDemographicFormDataWithBatch(kdr, batchDataFile));
         }
 
         return results;

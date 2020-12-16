@@ -5,9 +5,9 @@ import org.humanitarian.collector.controllers.responses.BasicEntityMessageRespon
 import org.humanitarian.collector.controllers.responses.BasicListMessageResponse;
 import org.humanitarian.collector.controllers.responses.PaginatedListMessageResponse;
 import org.humanitarian.collector.exceptions.HandlerNotFoundException;
-import org.humanitarian.collector.models.Barangay;
+import org.humanitarian.collector.models.BarangayFormData;
 import org.humanitarian.collector.models.BatchDataFile;
-import org.humanitarian.collector.models.Demographic;
+import org.humanitarian.collector.models.DemographicFormData;
 import org.humanitarian.collector.models.Person;
 import org.humanitarian.collector.services.BatchDataFileService;
 import org.humanitarian.collector.services.DataService;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/data")
@@ -40,7 +39,7 @@ public class DataController {
     }
 
     @GetMapping("/demographics/list")
-    public PaginatedListMessageResponse<Demographic> listOfDemographics(
+    public PaginatedListMessageResponse<DemographicFormData> listOfDemographics(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "sortColumn", defaultValue = "submissionTime") String sortColumn,
             @RequestParam(name = "sortDirection", defaultValue = "DESC") String sortDirection) {
@@ -48,7 +47,7 @@ public class DataController {
     }
 
     @GetMapping("/barangay/list")
-    public PaginatedListMessageResponse<Barangay> listOfBarangay(
+    public PaginatedListMessageResponse<BarangayFormData> listOfBarangay(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "sortColumn", defaultValue = "submissionTime") String sortColumn,
             @RequestParam(name = "sortDirection", defaultValue = "DESC") String sortDirection) {

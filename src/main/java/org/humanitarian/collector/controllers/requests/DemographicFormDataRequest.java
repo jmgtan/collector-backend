@@ -10,7 +10,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class DemographicRequest {
+public class DemographicFormDataRequest {
     @JsonProperty("First_Name")
     @CsvBindByName(column = "First_Name", required = true)
     private String firstName;

@@ -1,10 +1,10 @@
 package org.humanitarian.collector.services;
 
-import org.humanitarian.collector.models.Barangay;
-import org.humanitarian.collector.models.Demographic;
+import org.humanitarian.collector.models.BarangayFormData;
+import org.humanitarian.collector.models.DemographicFormData;
 import org.humanitarian.collector.models.Person;
-import org.humanitarian.collector.repositories.BarangayRepository;
-import org.humanitarian.collector.repositories.DemographicRepository;
+import org.humanitarian.collector.repositories.BarangayFormDataRepository;
+import org.humanitarian.collector.repositories.DemographicFormDataRepository;
 import org.humanitarian.collector.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,16 +17,16 @@ import org.springframework.stereotype.Service;
 public class DataServiceImpl implements DataService {
 
     @Autowired
-    private DemographicRepository demographicRepository;
+    private DemographicFormDataRepository demographicFormDataRepository;
 
     @Autowired
     private PersonRepository personRepository;
 
     @Autowired
-    private BarangayRepository barangayRepository;
+    private BarangayFormDataRepository barangayFormDataRepository;
 
     @Override
-    public Page<Barangay> listBarangay(int page, String sortColumn, Sort.Direction direction) {
+    public Page<BarangayFormData> listBarangay(int page, String sortColumn, Sort.Direction direction) {
         if (sortColumn == null) {
             sortColumn = "submissionTime";
         }
@@ -37,7 +37,7 @@ public class DataServiceImpl implements DataService {
 
         Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE, Sort.by(direction, sortColumn));
 
-        return barangayRepository.findAll(pageable);
+        return barangayFormDataRepository.findAll(pageable);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public Page<Demographic> listDemographics(int page, String sortColumn, Sort.Direction direction) {
+    public Page<DemographicFormData> listDemographics(int page, String sortColumn, Sort.Direction direction) {
         if (sortColumn == null) {
             sortColumn = "submissionTime";
         }
@@ -65,6 +65,6 @@ public class DataServiceImpl implements DataService {
         }
 
         Pageable sortBySubmissionTime = PageRequest.of(page - 1, PAGE_SIZE, Sort.by(direction, sortColumn));
-        return demographicRepository.findAll(sortBySubmissionTime);
+        return demographicFormDataRepository.findAll(sortBySubmissionTime);
     }
 }

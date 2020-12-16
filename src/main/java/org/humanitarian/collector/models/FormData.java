@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "report_data")
+@Table(name = "parent_form_data")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class ReportData {
+public abstract class FormData {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -29,20 +29,24 @@ public abstract class ReportData {
     @Column(name = "source_system_identifier")
     private String sourceSystemIdentifier;
 
-    @ManyToMany
-    @JoinTable(
-            name = "report_data_persons",
-            joinColumns = @JoinColumn(name = "report_data_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_id")
-    )
-    private List<Person> associatedPersons;
-
-    @OneToMany(mappedBy = "reportData")
+    @OneToMany(mappedBy = "formData")
     private List<DataAttachment> dataAttachments;
+
+    @OneToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
     @ManyToOne
     @JoinColumn(name = "batch_data_file_id")
     private BatchDataFile batchDataFile;
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
     public BatchDataFile getBatchDataFile() {
         return batchDataFile;
@@ -58,14 +62,6 @@ public abstract class ReportData {
 
     public void setDataAttachments(List<DataAttachment> dataAttachments) {
         this.dataAttachments = dataAttachments;
-    }
-
-    public List<Person> getAssociatedPersons() {
-        return associatedPersons;
-    }
-
-    public void setAssociatedPersons(List<Person> associatedPersons) {
-        this.associatedPersons = associatedPersons;
     }
 
     public UUID getId() {
@@ -106,14 +102,6 @@ public abstract class ReportData {
 
     public void setSourceSystemIdentifier(String sourceSystemIdentifier) {
         this.sourceSystemIdentifier = sourceSystemIdentifier;
-    }
-
-    public void addPerson(Person p) {
-        if (associatedPersons == null) {
-            associatedPersons = new ArrayList<>();
-        }
-
-        associatedPersons.add(p);
     }
 
     public void addDataAttachment(DataAttachment d) {

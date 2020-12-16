@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.sql.Date;
 
 public class BarangayPersonRequest {
-    @JsonProperty("group_lu2kq66/FIRST_NAME")
+    @JsonProperty("group_lu2kq66/Household/FIRST_NAME")
     private String firstName;
 
-    @JsonProperty("group_lu2kq66/MIDDLE_NAME")
+    @JsonProperty("group_lu2kq66/Household/MIDDLE_NAME")
     private String middleName;
 
-    @JsonProperty("group_lu2kq66/LAST_NAME")
+    @JsonProperty("group_lu2kq66/Household/LAST_NAME")
     private String lastName;
 
     @JsonProperty("group_lu2kq66/Is_A1_a_member_of_LGBTQI_community")
@@ -67,6 +67,17 @@ public class BarangayPersonRequest {
 
     @JsonProperty("group_lu2kq66/Pregnant")
     private String pregnant;
+
+    @JsonProperty("group_lu2kq66/Which_method_did_u_use")
+    private String familyPlanningMethod;
+
+    public String getFamilyPlanningMethod() {
+        return familyPlanningMethod;
+    }
+
+    public void setFamilyPlanningMethod(String familyPlanningMethod) {
+        this.familyPlanningMethod = familyPlanningMethod;
+    }
 
     public boolean isPregnant() {
         return pregnant != null && pregnant.equalsIgnoreCase("yes");
