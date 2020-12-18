@@ -1,6 +1,7 @@
 package org.humanitarian.collector.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.text.WordUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,8 +11,18 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "people")
+@Table(name = "people", indexes = {
+        @Index(columnList = "first_name, middle_name, last_name, date_of_birth"),
+        @Index(columnList = "gender, pregnant"),
+        @Index(columnList = "gender, breastfeeding"),
+        @Index(columnList = "family_planning"),
+        @Index(columnList = "relationship")
+})
 public class Person {
+    public static final String RELATIONSHIP_HOUSEHOLD_HEAD = "household_head";
+    public static final String BF_EXCLUSIVE = "ebf__exclusive_breastfeeding";
+    public static final String BF_MIXED_FEEDING = "mixed_feeding";
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -189,7 +200,10 @@ public class Person {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName != null)
+            this.firstName = WordUtils.capitalize(firstName);
+        else
+            this.firstName = null;
     }
 
     public String getLastName() {
@@ -197,7 +211,10 @@ public class Person {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName != null)
+            this.lastName = WordUtils.capitalize(lastName);
+        else
+            this.lastName = null;
     }
 
     public Date getDob() {
@@ -213,7 +230,10 @@ public class Person {
     }
 
     public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+        if (middleName != null)
+            this.middleName = WordUtils.capitalize(middleName);
+        else
+            this.middleName = null;
     }
 
     public boolean isMemberOfLgbtqi() {

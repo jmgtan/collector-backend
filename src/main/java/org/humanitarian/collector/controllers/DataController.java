@@ -4,13 +4,16 @@ import org.humanitarian.collector.auth.models.User;
 import org.humanitarian.collector.controllers.responses.BasicEntityMessageResponse;
 import org.humanitarian.collector.controllers.responses.BasicListMessageResponse;
 import org.humanitarian.collector.controllers.responses.PaginatedListMessageResponse;
+import org.humanitarian.collector.controllers.responses.RootsOfHealthResponse;
 import org.humanitarian.collector.exceptions.HandlerNotFoundException;
 import org.humanitarian.collector.models.BarangayFormData;
 import org.humanitarian.collector.models.BatchDataFile;
 import org.humanitarian.collector.models.DemographicFormData;
 import org.humanitarian.collector.models.Person;
+import org.humanitarian.collector.models.reports.GeneralDemographicData;
 import org.humanitarian.collector.services.BatchDataFileService;
 import org.humanitarian.collector.services.DataService;
+import org.humanitarian.collector.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,9 @@ public class DataController {
 
     @Autowired
     private BatchDataFileService batchDataFileService;
+
+    @Autowired
+    private ReportService reportService;
 
     @GetMapping("/persons/list")
     public PaginatedListMessageResponse<Person> listOfPersons(
@@ -62,5 +68,10 @@ public class DataController {
     @GetMapping(value = "/available-handlers", produces = "application/json")
     public BasicListMessageResponse<String> listAvailableHandlers() {
         return new BasicListMessageResponse<String>(HttpStatus.OK, batchDataFileService.getAvailableHandlers());
+    }
+
+    @GetMapping("/reports/roots-of-health")
+    public BasicEntityMessageResponse<RootsOfHealthResponse> rootsOfHealthReport() {
+        return new BasicEntityMessageResponse<>(HttpStatus.OK, new RootsOfHealthResponse(reportService.getGeneralDemographicsData(), reportService.getReproductiveHealthData(), reportService.getSanitationData()));
     }
 }
