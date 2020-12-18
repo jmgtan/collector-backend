@@ -6,10 +6,7 @@ import org.humanitarian.collector.controllers.responses.BasicListMessageResponse
 import org.humanitarian.collector.controllers.responses.PaginatedListMessageResponse;
 import org.humanitarian.collector.controllers.responses.RootsOfHealthResponse;
 import org.humanitarian.collector.exceptions.HandlerNotFoundException;
-import org.humanitarian.collector.models.BarangayFormData;
-import org.humanitarian.collector.models.BatchDataFile;
-import org.humanitarian.collector.models.DemographicFormData;
-import org.humanitarian.collector.models.Person;
+import org.humanitarian.collector.models.*;
 import org.humanitarian.collector.models.reports.GeneralDemographicData;
 import org.humanitarian.collector.services.BatchDataFileService;
 import org.humanitarian.collector.services.DataService;
@@ -73,5 +70,10 @@ public class DataController {
     @GetMapping("/reports/roots-of-health")
     public BasicEntityMessageResponse<RootsOfHealthResponse> rootsOfHealthReport() {
         return new BasicEntityMessageResponse<>(HttpStatus.OK, new RootsOfHealthResponse(reportService.getGeneralDemographicsData(), reportService.getReproductiveHealthData(), reportService.getSanitationData()));
+    }
+
+    @GetMapping("/reports/download")
+    public BasicEntityMessageResponse<ReportDownload> downloadReport(@AuthenticationPrincipal User user) throws IOException {
+        return new BasicEntityMessageResponse<>(HttpStatus.OK, reportService.generateReport(user));
     }
 }
