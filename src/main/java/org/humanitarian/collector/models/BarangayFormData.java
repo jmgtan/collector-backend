@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "form_data_barangay")
+@Table(name = "form_data_barangay", indexes = {
+        @Index(columnList = "residence_address")
+})
 public class BarangayFormData extends FormData {
 
     @OneToMany(mappedBy = "formData", cascade = CascadeType.ALL)

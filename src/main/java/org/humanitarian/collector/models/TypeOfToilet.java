@@ -7,8 +7,15 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "sub_types_of_toilet")
+@Table(name = "sub_types_of_toilet", indexes = {
+        @Index(columnList = "type")
+})
 public class TypeOfToilet {
+    public static final String TYPE_WATER_SEALED = "water_sealed";
+    public static final String TYPE_OPEN_PIT = "open_pit";
+    public static final String TYPE_COMMUNAL = "communal";
+    public static final String TYPE_NO_TOILET = "no_toilet";
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
