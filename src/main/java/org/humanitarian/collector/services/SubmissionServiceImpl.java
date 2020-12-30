@@ -156,6 +156,9 @@ public class SubmissionServiceImpl implements SubmissionService {
         p.setBloodType(request.getBloodType());
         p.setOccupation(request.getOccupation());
         p.addFamilyPlanningMethods(request.getFamilyPlanningMethod());
+        p.setBirthOrder(request.getBirthOrder());
+        p.setNameExt(request.getNameExt());
+        p.setIndicateBirthCity(request.getIndicateBirthCity());
 
         personRepository.save(p);
 

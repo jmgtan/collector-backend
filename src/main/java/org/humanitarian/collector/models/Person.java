@@ -37,6 +37,9 @@ public class Person {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "name_ext")
+    private String nameExt;
+
     @Column(name = "date_of_birth", nullable = false)
     private Date dob;
 
@@ -66,6 +69,12 @@ public class Person {
     @Column(name = "place_of_birth")
     private String placeOfBirth;
 
+    @Column(name = "indicate_birth_city")
+    private String indicateBirthCity;
+
+    @Column(name = "birth_order")
+    private int birthOrder;
+
     @Column(name = "others_breastfeeding")
     private String othersBreastfeeding;
 
@@ -90,6 +99,30 @@ public class Person {
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<FamilyPlanningMethod> familyPlanningMethods;
+
+    public String getIndicateBirthCity() {
+        return indicateBirthCity;
+    }
+
+    public void setIndicateBirthCity(String indicateBirthCity) {
+        this.indicateBirthCity = indicateBirthCity;
+    }
+
+    public String getNameExt() {
+        return nameExt;
+    }
+
+    public void setNameExt(String nameExt) {
+        this.nameExt = nameExt;
+    }
+
+    public int getBirthOrder() {
+        return birthOrder;
+    }
+
+    public void setBirthOrder(int birthOrder) {
+        this.birthOrder = birthOrder;
+    }
 
     public void addFamilyPlanningMethods(String t) {
         if (t != null) {

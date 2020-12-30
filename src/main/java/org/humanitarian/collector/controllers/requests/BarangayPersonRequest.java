@@ -14,16 +14,22 @@ public class BarangayPersonRequest {
     @JsonProperty("group_lu2kq66/Household/LAST_NAME")
     private String lastName;
 
+    @JsonProperty("group_lu2kq66/Household/EXT")
+    private String nameExt;
+
     @JsonProperty("group_lu2kq66/Is_A1_a_member_of_LGBTQI_community")
     private String memberOfLgbtqi;
 
-    @JsonProperty("group_lu2kq66/Where_was_A1_born")
+    @JsonProperty("group_lu2kq66/Where_was_FIRST_NAME_born")
     private String placeOfBirth;
+
+    @JsonProperty("group_lu2kq66/_Please_indicate_cit_here_you_were_born_")
+    private String indicateBirthCity;
 
     @JsonProperty("group_lu2kq66/Does_A1_received_government_programs")
     private String receivedGovernmentPrograms;
 
-    @JsonProperty("group_lu2kq66/DOB")
+    @JsonProperty("group_lu2kq66/group_th3bt73/DOB")
     private Date dob;
 
     @JsonProperty("group_lu2kq66/Couples_practicing_family_plan")
@@ -47,7 +53,7 @@ public class BarangayPersonRequest {
     @JsonProperty("group_lu2kq66/IP_affiliation")
     private String ipAffiliation;
 
-    @JsonProperty("group_lu2kq66/Age_Years_old")
+    @JsonProperty("group_lu2kq66/group_th3bt73/Age_Years_old")
     private int age;
 
     @JsonProperty("group_lu2kq66/Occupation")
@@ -70,6 +76,33 @@ public class BarangayPersonRequest {
 
     @JsonProperty("group_lu2kq66/Which_method_did_u_use")
     private String familyPlanningMethod;
+
+    @JsonProperty("group_lu2kq66/birthorder")
+    private int birthOrder;
+
+    public String getNameExt() {
+        return nameExt;
+    }
+
+    public void setNameExt(String nameExt) {
+        this.nameExt = nameExt;
+    }
+
+    public String getIndicateBirthCity() {
+        return indicateBirthCity;
+    }
+
+    public void setIndicateBirthCity(String indicateBirthCity) {
+        this.indicateBirthCity = indicateBirthCity;
+    }
+
+    public int getBirthOrder() {
+        return birthOrder;
+    }
+
+    public void setBirthOrder(int birthOrder) {
+        this.birthOrder = birthOrder;
+    }
 
     public String getFamilyPlanningMethod() {
         return familyPlanningMethod;
